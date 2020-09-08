@@ -36,6 +36,7 @@
         _tableView.pageDelegate = self;
         _tableView.dataSource = self;
         _tableView.scrollEnabled = YES;
+        _tableView.estimatedRowHeight = 200;
         [_tableView registerNib:[UINib nibWithNibName:@"TestTableViewCell" bundle:nil] forCellReuseIdentifier:@"TestTableViewCell"];
     }
     return _tableView;
@@ -53,96 +54,4 @@
     cell.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255 alpha:1];
     return cell;
 }
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
-}
-
-/*
-// scrollView 结束拖动
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-    NSArray *cells = self.tableView.visibleCells;
-    CGPoint oldPoint = scrollView.contentOffset;
-    CGFloat maxHeight = 50;
-    if (cells.count > 1) {
-         
-        UITableView *cell;
-        if (dragDirection == YES) {//下
-
-             cell = cells.lastObject;
-            
-            CGPoint point = [cell.superview convertPoint:cell.frame.origin toView:self.view];
-
-            
-            if (point.y > maxHeight) {
-                
-                oldPoint.y -= self.view.frame.size.height - point.y;
-                [scrollView setContentOffset:oldPoint animated:YES];
-            } else {
-                
-                oldPoint.y += point.y;
-                [scrollView setContentOffset:oldPoint animated:YES];
-            }
-            
-            
-        } else { //上
-            cell = cells.lastObject;
-            
-            CGPoint point = [cell.superview convertPoint:cell.frame.origin toView:self.view];
-
-            if (self.view.frame.size.height - point.y > maxHeight) {
-                
-                oldPoint.y += self.view.frame.size.height - (self.view.frame.size.height - point.y);
-                [scrollView setContentOffset:oldPoint animated:YES];
-                
-            } else {
-                
-                oldPoint.y -= self.view.frame.size.height - point.y;
-                [scrollView setContentOffset:oldPoint animated:YES];
-            }
-
-            
-        }
-    } else {
-        NSLog(@"只有一个cell");
-    }
-}
-//开始减速
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-    
-    beginDecelerating = YES;
-}
-// scrollview 减速停止
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-       beginDecelerating = NO;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-     dragDirection = [self dragDirection:scrollView];
-     contentOffsetY = scrollView.contentOffset.y;
-    
-    if (beginDecelerating && dragDirection == NO) {//开始减速
-        
-        if ([self.tableView visibleCells].count > 1) {
-            NSLog(@"停止滚动");
-            [scrollView setContentOffset:scrollView.contentOffset animated:NO];
-            [self scrollViewDidEndDragging:scrollView willDecelerate:NO];
-
-        }
-    }
-}
-
-//滑动方向  下 = YES。上 = NO。
-- (BOOL)dragDirection:(UIScrollView *)scrollerView {
-    
-    if (contentOffsetY > scrollerView.contentOffset.y) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
- */
 @end
