@@ -33,16 +33,15 @@
     if (cells.count > 1) {
          
         UITableView *cell;
+        cell = cells.lastObject;
+        CGPoint point = [cell.superview convertPoint:cell.frame.origin toView:self.superview];
+        point.y -= self.frame.origin.y;
+        
         if (dragDirection == YES) {//下
 
-             cell = cells.lastObject;
-            
-            CGPoint point = [cell.superview convertPoint:cell.frame.origin toView:self.superview];
-
-            
             if (point.y > maxHeight) {
                 
-                oldPoint.y -= self.superview.frame.size.height - point.y;
+                oldPoint.y -= cell.frame.size.height - point.y;
                 [scrollView setContentOffset:oldPoint animated:YES];
             } else {
                 
@@ -52,18 +51,16 @@
             
             
         } else { //上
-            cell = cells.lastObject;
-            
-            CGPoint point = [cell.superview convertPoint:cell.frame.origin toView:self.superview];
 
-            if (self.superview.frame.size.height - point.y > maxHeight) {
+
+            if (self.frame.size.height - point.y > maxHeight) {
                 
-                oldPoint.y += self.superview.frame.size.height - (self.superview.frame.size.height - point.y);
+                oldPoint.y += self.frame.size.height - (self.frame.size.height - point.y);
                 [scrollView setContentOffset:oldPoint animated:YES];
                 
             } else {
                 
-                oldPoint.y -= self.superview.frame.size.height - point.y;
+                oldPoint.y -= self.frame.size.height - point.y;
                 [scrollView setContentOffset:oldPoint animated:YES];
             }
 
