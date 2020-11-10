@@ -32,31 +32,28 @@
     CGFloat maxHeight = 50;
     if (cells.count > 1) {
          
-        UITableView *cell;
+        UITableViewCell *cell;
         cell = cells.lastObject;
         CGPoint point = [cell.superview convertPoint:cell.frame.origin toView:self.superview];
         point.y -= self.frame.origin.y;
         
-        if (dragDirection == YES) {//下
-
+        if (dragDirection == YES) { //下
+            
             if (point.y > maxHeight) {
-                
-                oldPoint.y -= cell.frame.size.height - point.y;
-                [scrollView setContentOffset:oldPoint animated:YES];
+                cell = cells.firstObject;
+                CGPoint p = [self rectForRowAtIndexPath:[self indexPathForCell:cell]].origin;
+                [scrollView setContentOffset:p animated:YES];
             } else {
                 
                 oldPoint.y += point.y;
                 [scrollView setContentOffset:oldPoint animated:YES];
             }
-            
-            
-        } else { //上
 
-
+        } else {
             if (self.frame.size.height - point.y > maxHeight) {
                 
-                oldPoint.y += self.frame.size.height - (self.frame.size.height - point.y);
-                [scrollView setContentOffset:oldPoint animated:YES];
+                CGPoint p = [self rectForRowAtIndexPath:[self indexPathForCell:cell]].origin;
+                [scrollView setContentOffset:p animated:YES];
                 
             } else {
                 
@@ -64,8 +61,8 @@
                 [scrollView setContentOffset:oldPoint animated:YES];
             }
 
-            
         }
+        return;
     } else {
         NSLog(@"只有一个cell");
     }
